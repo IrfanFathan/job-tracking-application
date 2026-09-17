@@ -1,0 +1,64 @@
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Profile {
+  id           String        @id @db.Uuid
+  name         String?
+  role         String        @default("user")
+  created_at   DateTime      @default(now())
+  updated_at   DateTime      @updatedAt
+  applications Application[]
+
+  @@map("profiles")
+}
+
+model Application {
+  id                 Int         @id @default(autoincrement())
+  user_id            String      @db.Uuid
+  profile            Profile     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  app_code           String      @unique
+  company_name       String
+  job_title          String
+  role_type          String
+  work_mode          String
+  location_details   String?
+  job_posting_url    String?
+  notes              String?
+  salary_range       String?
+  application_date   DateTime
+  application_source String
+  referral_contact   String?
+  status             String      @default("Bookmarked")
+  follow_up_date     DateTime?
+  created_at         DateTime    @default(now())
+  updated_at         DateTime    @updatedAt
+  interviews         Interview[]
+
+  @@map("applications")
+}
+
+model Interview {
+  id                 Int         @id @default(autoincrement())
+  int_code           String      @unique
+  application_id     Int
+  application        Application @relation(fields: [application_id], references: [id], onDelete: Cascade)
+  round_type         String
+  interview_datetime DateTime
+  interviewers       String?
+  meeting_link       String?
+  prep_notes         String?
+  feedback           String?
+  outcome            String      @default("Pending Feedback")
+  thank_you_sent     Boolean     @default(false)
+  created_at         DateTime    @default(now())
+  updated_at         DateTime    @updatedAt
+
+  @@map("interviews")
+}

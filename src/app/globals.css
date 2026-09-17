@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-canvas-soft: #e8ebe6;
+  --color-canvas: #ffffff;
+  --color-primary: #9fe870;
+  --color-on-primary: #0e0f0c;
+  --color-primary-hover: #cdffad;
+  --color-primary-pale: #e2f6d5;
+  --color-ink: #0e0f0c;
+  --color-[#163300]: #163300;
+  --color-body: #454745;
+  --color-mute: #868685;
+
+  --font-inter: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-wise-display: 'Manrope', 'Inter', system-ui, sans-serif;
+  --font-dm-mono: 'DM Mono', monospace;
+}
+
+body {
+  font-family: var(--font-inter);
+  background-color: var(--color-canvas-soft);
+  color: var(--color-ink);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-wise-display {
+  font-family: var(--font-wise-display);
+  font-weight: 900;
+}
+
+.font-mono-wise {
+  font-family: var(--font-dm-mono);
+}
+
+/* Wise Card Surfaces */
+.wise-card {
+  background-color: var(--color-canvas);
+  border-radius: 24px;
+  box-shadow: 0 2px 12px rgba(14, 15, 12, 0.04);
+}
+
+.wise-card-hover {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.wise-card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(14, 15, 12, 0.08);
+}
+
+/* Wise Button Primary */
+.wise-btn-primary {
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+  font-family: var(--font-inter);
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 9999px;
+  padding: 10px 20px;
+  transition: all 0.15s ease;
+}
+
+.wise-btn-primary:hover {
+  background-color: var(--color-primary-hover);
+  transform: scale(1.02);
+}
+
+/* Wise Button Secondary */
+.wise-btn-secondary {
+  background-color: #dce1d9;
+  color: var(--color-ink);
+  font-family: var(--font-inter);
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 9999px;
+  padding: 10px 20px;
+  transition: all 0.15s ease;
+}
+
+.wise-btn-secondary:hover {
+  background-color: #d0d6cc;
+}
+
+/* Wise Input Chrome */
+.wise-input {
+  background-color: var(--color-canvas);
+  color: var(--color-ink);
+  border: 1px solid #d0d6cc;
+  border-radius: 12px;
+  font-size: 14px;
+  padding: 10px 14px;
+  transition: border-color 0.15s ease;
+}
+
+.wise-input:focus {
+  outline: none;
+  border-color: var(--color-ink);
+}
+
+/* Custom Scrollbars for Wise Sage Canvas */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-canvas-soft);
+}
+::-webkit-scrollbar-thumb {
+  background: #c5ccc0;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #adb5a7;
+}
