@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { Plus, Calendar, Settings, LogOut } from 'lucide-react';
+import { NanobaneLogo } from '@/components/NanobaneLogo';
 
 interface NavigationProps {
   onNewApplication?: () => void;
@@ -72,14 +73,12 @@ export const Navigation: React.FC<NavigationProps> = ({ onNewApplication, onNewI
     <header className="sticky top-0 z-40 bg-[#ffffff] border-b border-[#d8dcd5] shadow-xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Brand Wordmark with Wise Green Pill */}
+          {/* Brand Wordmark with Nanobane Icon */}
           <div className="flex items-center space-x-8">
             <Link href="/" className="flex items-center space-x-2.5 group">
-              <div className="w-8 h-8 rounded-full bg-[#9fe870] flex items-center justify-center font-wise-display text-[#0e0f0c] font-black text-sm group-hover:scale-105 transition-transform">
-                W
-              </div>
+              <NanobaneLogo size={36} className="group-hover:scale-105 transition-transform" />
               <span className="font-wise-display font-black text-xl text-[#0e0f0c] tracking-tight">
-                Wise Tracker
+                Nanobane
               </span>
             </Link>
 

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { LogIn, AlertCircle, CheckCircle, Mail } from 'lucide-react';
+import { NanobaneLogo } from '@/components/NanobaneLogo';
 
 function LoginForm() {
   const router = useRouter();
@@ -230,9 +231,7 @@ export default function LoginPage() {
   return (
     <div className="min-h-[calc(100vh-120px)] flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-[#e8ebe6]/40">
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
-        <div className="mx-auto w-12 h-12 rounded-2xl bg-[#9fe870] text-[#0e0f0c] flex items-center justify-center font-extrabold text-2xl mb-4 shadow-sm">
-          W
-        </div>
+        <NanobaneLogo size={48} className="mx-auto mb-4 shadow-sm" />
         <h1 className="text-3xl font-black text-[#0e0f0c] tracking-tight">
           Welcome Back
         </h1>

@@ -3,8 +3,8 @@ import './globals.css';
 import { SessionProviderWrapper } from '@/components/SessionProviderWrapper';
 
 export const metadata: Metadata = {
-  title: 'Job Tracker — Wise Edition',
-  description: 'Global application & interview tracking platform.',
+  title: 'Nanobane — Job Application & Interview Tracker',
+  description: 'Global job application & interview tracking platform.',
 };
 
 export default function RootLayout({
