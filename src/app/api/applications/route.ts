@@ -17,8 +17,13 @@ export async function GET() {
     const formattedApplications = await getUserApplications(user.id);
 
     return NextResponse.json(formattedApplications);
-  } catch (error) {
-    console.error('Failed to fetch applications:', error);
+  } catch (error: any) {
+    console.error('[GET /api/applications] Unexpected error:', {
+      message: error?.message,
+      code: error?.code,
+      meta: error?.meta,
+      stack: error?.stack?.split('\n').slice(0, 5).join(' | '),
+    });
     return NextResponse.json(
       { error: 'An unexpected database error occurred while fetching applications.' },
       { status: 500 }
@@ -48,7 +53,13 @@ export async function POST(request: Request) {
         { status: 400 }
       );
     }
-    console.error('Failed to create application:', error);
+    // Structured server-side log: captures real Prisma/Postgres error (e.g. P2003 FK violation)
+    console.error('[POST /api/applications] Unexpected error:', {
+      message: error?.message,
+      code: error?.code,          // Prisma error code e.g. P2003
+      meta: error?.meta,          // Prisma meta e.g. { field_name, modelName }
+      stack: error?.stack?.split('\n').slice(0, 5).join(' | '),
+    });
     return NextResponse.json(
       { error: 'An unexpected database error occurred while creating the application.' },
       { status: 500 }
