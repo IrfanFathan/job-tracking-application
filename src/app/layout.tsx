@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { SessionProviderWrapper } from '@/components/SessionProviderWrapper';
+import { Analytics } from '@vercel/analytics/next';
 
 export const metadata: Metadata = {
   title: 'Nanobane — Job Application & Interview Tracker',
@@ -18,6 +19,7 @@ export default function RootLayout({
         <SessionProviderWrapper>
           <div className="relative z-10 flex-1 flex flex-col">{children}</div>
         </SessionProviderWrapper>
+        <Analytics />
       </body>
     </html>
   );
