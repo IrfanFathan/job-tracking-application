@@ -32,10 +32,12 @@ export default function SignUpPage() {
     setLoading(true);
 
     try {
+      const origin = typeof window !== 'undefined' ? window.location.origin : '';
       const { data, error: signUpErr } = await supabase.auth.signUp({
         email: email.trim().toLowerCase(),
         password,
         options: {
+          emailRedirectTo: `${origin}/auth/callback?next=/dashboard`,
           data: {
             name: name.trim(),
           },
@@ -53,7 +55,7 @@ export default function SignUpPage() {
       }
 
       if (data.session) {
-        router.push('/');
+        router.push('/dashboard');
         router.refresh();
       } else {
         setSuccessMsg('Account created successfully! Please check your email inbox to confirm your registration, or log in.');
@@ -75,7 +77,7 @@ export default function SignUpPage() {
       const { error: oauthError } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${origin}/api/auth/callback?next=/`,
+          redirectTo: `${origin}/auth/callback?next=/dashboard`,
         },
       });
 

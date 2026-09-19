@@ -31,6 +31,13 @@ export async function middleware(request: NextRequest) {
   } = await supabase.auth.getUser();
 
   const { pathname } = request.nextUrl;
+
+  // Allow auth callback routes to process code exchange without login redirects
+  const isAuthCallback = pathname.startsWith('/auth/callback') || pathname.startsWith('/api/auth');
+  if (isAuthCallback) {
+    return supabaseResponse;
+  }
+
   const isAuthPage = pathname === '/login' || pathname === '/signup';
 
   if (isAuthPage) {
@@ -55,10 +62,9 @@ export const config = {
      * Match all request paths except:
      * - _next/static (static files)
      * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * - api/auth (Supabase OAuth callback)
-     * - public assets
+     * - favicon.ico, icon.svg (icon files)
+     * - auth/callback & api/auth (Supabase OAuth & signup callbacks)
      */
-    '/((?!_next/static|_next/image|favicon.ico|api/auth).*)',
+    '/((?!_next/static|_next/image|favicon.ico|icon.svg|auth/callback|api/auth).*)',
   ],
 };
