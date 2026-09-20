@@ -35,3 +35,7 @@ next-env.d.json
 # OS files
 .DS_Store
 Thumbs.db
+
+# AI skills and local agent metadata
+.agents/
+skills-lock.json
