@@ -49,24 +49,38 @@ CREATE POLICY "Users manage interviews for their own applications"
     )
   );
 
+-- 1b. Ensure default on updated_at in case table was created via Prisma db push
+ALTER TABLE public.profiles ALTER COLUMN updated_at SET DEFAULT NOW();
+
 -- 4. Trigger to automatically create a public.profiles row when a new auth.users row is inserted
 CREATE OR REPLACE FUNCTION public.handle_new_user()
-RETURNS TRIGGER AS $$
+RETURNS TRIGGER
+LANGUAGE plpgsql
+SECURITY DEFINER SET search_path = public
+AS $$
 BEGIN
   INSERT INTO public.profiles (id, name, role)
   VALUES (
     NEW.id,
-    COALESCE(NEW.raw_user_meta_data->>'name', NEW.raw_user_meta_data->>'full_name', split_part(NEW.email, '@', 1)),
+    COALESCE(NEW.raw_user_meta_data->>'full_name', NEW.raw_user_meta_data->>'name', split_part(NEW.email, '@', 1)),
     'user'
   )
   ON CONFLICT (id) DO UPDATE
-  SET name = EXCLUDED.name;
+  SET name = COALESCE(EXCLUDED.name, profiles.name),
+      updated_at = NOW();
   RETURN NEW;
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$$;
 
 -- Drop trigger if exists and recreate
 DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
 CREATE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users
   FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
+
+-- 5. Backfill any existing orphaned accounts
+INSERT INTO public.profiles (id, name, role)
+SELECT u.id, COALESCE(u.raw_user_meta_data->>'full_name', u.raw_user_meta_data->>'name', split_part(u.email, '@', 1)), 'user'
+FROM auth.users u
+LEFT JOIN public.profiles p ON p.id = u.id
+WHERE p.id IS NULL;

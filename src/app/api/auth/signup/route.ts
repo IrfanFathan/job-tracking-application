@@ -29,6 +29,7 @@ export async function POST(request: Request) {
       password: validatedData.password,
       email_confirm: true,
       user_metadata: {
+        full_name: validatedData.name.trim(),
         name: validatedData.name.trim(),
       },
     });
