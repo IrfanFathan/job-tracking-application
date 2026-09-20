@@ -41,6 +41,7 @@ model Application {
   updated_at         DateTime    @updatedAt
   interviews         Interview[]
 
+  @@index([user_id])
   @@map("applications")
 }
 
@@ -60,5 +61,6 @@ model Interview {
   created_at         DateTime    @default(now())
   updated_at         DateTime    @updatedAt
 
+  @@index([application_id])
   @@map("interviews")
 }
